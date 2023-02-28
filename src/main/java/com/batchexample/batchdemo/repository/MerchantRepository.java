@@ -1,0 +1,14 @@
+package com.batchexample.batchdemo.repository;
+
+import com.batchexample.batchdemo.dto.MerchantDto;
+import com.batchexample.batchdemo.entity.Merchant;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+public interface MerchantRepository extends CrudRepository<Merchant, String> {
+
+    @Query(value = "select new com.batchexample.batchdemo.dto.MerchantDto(m.merchantId, m.phone, m.provider) from Merchant m")
+    List<MerchantDto> findAllMerchants();
+}
