@@ -22,20 +22,18 @@ import org.springframework.context.annotation.Configuration;
 public class SampleBatchConfiguration {
   @Autowired JobBuilderFactory jobBuilderFactory;
   @Autowired StepBuilderFactory stepBuilderFactory;
-  @Autowired MerchantRepository merchantRepository;
+
+  @Autowired SampleBatchTasklet sampleBatchTasklet;
 
   @Bean
   public Job processJob() throws CustomBatchException {
-    try {
-      return jobBuilderFactory
-          .get("SAMPLEJOB")
-          .incrementer(new RunIdIncrementer())
-          .start(processStep1())
-          .next(processStep2())
-          .build();
-    } catch (CustomBatchException e) {
-      throw new CustomBatchException(e.getMessage());
-    }
+
+    return jobBuilderFactory
+        .get("SAMPLEJOB")
+        .incrementer(new RunIdIncrementer())
+        .start(processStep1())
+        .next(processStep2())
+        .build();
   }
 
   @Bean
@@ -45,14 +43,8 @@ public class SampleBatchConfiguration {
 
   @Bean
   public Step processStep2() throws CustomBatchException {
-    try {
-      return stepBuilderFactory
-          .get("SAMPLESTEP2")
-          .tasklet(new SampleBatchTasklet(merchantRepository))
-          .build();
-    } catch (CustomBatchException e) {
-      throw new CustomBatchException(e.getMessage());
-    }
+
+    return stepBuilderFactory.get("SAMPLESTEP2").tasklet(sampleBatchTasklet).build();
   }
 
   @Bean
