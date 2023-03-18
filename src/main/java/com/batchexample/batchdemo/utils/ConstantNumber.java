@@ -7,5 +7,4 @@ public class ConstantNumber {
   public static final int FIVE = 5;
   public static final int SEVEN = 7;
   public static final int EIGHT = 8;
-
 }
