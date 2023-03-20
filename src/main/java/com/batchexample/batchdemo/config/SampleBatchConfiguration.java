@@ -1,8 +1,9 @@
 package com.batchexample.batchdemo.config;
 
 import com.batchexample.batchdemo.exception.CustomBatchException;
-import com.batchexample.batchdemo.repository.MerchantRepository;
-import com.batchexample.batchdemo.tasks.SampleBatchTasklet;
+import com.batchexample.batchdemo.tasks.SampleBatchWithEntityManagerTasklet;
+import com.batchexample.batchdemo.tasks.SampleBatchWithHibernateCursorTasklet;
+import com.batchexample.batchdemo.tasks.SampleBatchWithRepositoryTasklet;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -23,7 +24,11 @@ public class SampleBatchConfiguration {
   @Autowired JobBuilderFactory jobBuilderFactory;
   @Autowired StepBuilderFactory stepBuilderFactory;
 
-  @Autowired SampleBatchTasklet sampleBatchTasklet;
+  @Autowired SampleBatchWithRepositoryTasklet sampleBatchWithRepositoryTaskletTasklet;
+
+  @Autowired SampleBatchWithEntityManagerTasklet sampleBatchWithEntityManagerTasklet;
+
+  @Autowired SampleBatchWithHibernateCursorTasklet sampleBatchWithHibernateCursorTasklet;
 
   @Bean
   public Job processJob() throws CustomBatchException {
@@ -32,7 +37,9 @@ public class SampleBatchConfiguration {
         .get("SAMPLEJOB")
         .incrementer(new RunIdIncrementer())
         .start(processStep1())
-        .next(processStep2())
+        .next(processStepWithRepository())
+        .next(processStepWithEntityManager())
+        .next(processStepWithHiberanteCursor())
         .build();
   }
 
@@ -42,11 +49,34 @@ public class SampleBatchConfiguration {
   }
 
   @Bean
-  public Step processStep2() throws CustomBatchException {
-
-    return stepBuilderFactory.get("SAMPLESTEP2").tasklet(sampleBatchTasklet).build();
+  public Step processStepWithRepository() throws CustomBatchException {
+    return stepBuilderFactory
+        .get("SAMPLESTEP2")
+        .tasklet(sampleBatchWithRepositoryTaskletTasklet)
+        .build();
   }
 
+  @Bean
+  public Step processStepWithEntityManager() throws CustomBatchException {
+    return stepBuilderFactory
+        .get("SAMPLESTEP3")
+        .tasklet(sampleBatchWithEntityManagerTasklet)
+        .build();
+  }
+
+  @Bean
+  public Step processStepWithHiberanteCursor() throws CustomBatchException {
+    return stepBuilderFactory
+        .get("SAMPLESTEP4")
+        .tasklet(sampleBatchWithHibernateCursorTasklet)
+        .build();
+  }
+
+  /**
+   * simple tasklet callled in step 1 in job
+   *
+   * @return
+   */
   @Bean
   public Tasklet tasklet() {
     return (contribution, chunkContext) -> {

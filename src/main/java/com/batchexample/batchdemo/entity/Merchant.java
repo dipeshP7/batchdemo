@@ -1,5 +1,6 @@
 package com.batchexample.batchdemo.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GeneratorType;
 
