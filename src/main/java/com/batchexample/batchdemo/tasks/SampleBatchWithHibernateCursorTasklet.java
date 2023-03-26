@@ -29,6 +29,10 @@ public class SampleBatchWithHibernateCursorTasklet implements Tasklet {
   public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext)
       throws Exception {
 
+    /**
+     * This is not a correct way to use hibernate cursor
+     * its required reader and writer to utilised perfectly.
+     */
     HibernateCursorItemReader itemReader = readDataUsingHiberanteCursor();
 
     itemReader.afterPropertiesSet();

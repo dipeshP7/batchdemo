@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Log4j2
 @Configuration
 @EnableBatchProcessing
-public class SampleBatchConfiguration {
+public class SampleBatchTaskletConfiguration {
   @Autowired JobBuilderFactory jobBuilderFactory;
   @Autowired StepBuilderFactory stepBuilderFactory;
 
