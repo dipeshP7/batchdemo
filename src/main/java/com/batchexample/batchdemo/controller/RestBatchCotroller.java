@@ -116,8 +116,8 @@ public class RestBatchCotroller {
   public String executeSampleDatabaseChunkBatch(@PathVariable TaskName taskName) {
     try {
       /**
-       * Here checking with provided param is equal with SAMPLECHUNKTEXT if other than
-       * SAMPLECHUNKTEXT throw error
+       * Here checking with provided param is equal with SAMPLECHUNKDATABASE if other than
+       * SAMPLECHUNKDATABASE throw error
        */
       if (TaskName.SAMPLECHUNKDATABASE != taskName) {
         log.error("Invalid task name");
@@ -146,8 +146,8 @@ public class RestBatchCotroller {
   public String executeSampleDatabaseCustomChunkBatch(@PathVariable TaskName taskName) {
     try {
       /**
-       * Here checking with provided param is equal with SAMPLECHUNKTEXT if other than
-       * SAMPLECHUNKTEXT throw error
+       * Here checking with provided param is equal with SAMPLECHUNKDATABASE if other than
+       * SAMPLECHUNKDATABASE throw error
        */
       if (TaskName.SAMPLECHUNKDATABASE != taskName) {
         log.error("Invalid task name");
